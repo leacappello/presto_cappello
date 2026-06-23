@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Article;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -16,6 +17,11 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    public function articles()
+{
+    return $this->hasMany(Article::class);
+}
 
     /**
      * Get the attributes that should be cast.

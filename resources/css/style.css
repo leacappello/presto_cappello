@@ -1,0 +1,7 @@
+.navbar form {
+    margin: 0;
+}
+
+.navbar form .btn {
+    padding: .5rem 1rem;
+}

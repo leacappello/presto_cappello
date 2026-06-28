@@ -14,6 +14,7 @@ class Article extends Model
         'price',
         'category_id',
         'user_id',
+        'is_accepted',
     ];
 
     public function user()

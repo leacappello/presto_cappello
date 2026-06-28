@@ -87,31 +87,42 @@
 
                 @auth
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('article.create') }}">
-                            Inserisci annuncio
-                        </a>
-                    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('article.create') }}">
+            Inserisci annuncio
+        </a>
+    </li>
 
-                    <li class="nav-item">
+    @if (auth()->user()->is_revisor == true)
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('revisor.index') }}">
+                Dashboard Revisore
+            </a>
+        </li>
+    @endif
+    
+    @if (!auth()->user()->is_revisor)
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('work.with.us') }}">
+            Lavora con noi
+        </a>
+    </li>
+@endif
 
-                        <form method="POST"
-                              action="{{ route('logout') }}">
+    <li class="nav-item">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
 
-                            @csrf
+            <button
+             type="submit"
+             class="btn btn-link nav-link text-white text-decoration-none border-0">
+             Logout
+            </button>
 
-                            <button class="btn nav-link border-0 bg-transparent text-white"
-                                    type="submit">
+        </form>
+    </li>
 
-                                Logout
-
-                            </button>
-
-                        </form>
-
-                    </li>
-
-                @endauth
+@endauth
 
             </ul>
 

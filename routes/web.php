@@ -39,3 +39,7 @@ Route::get('/lavora-con-noi', [WorkWithUsController::class, 'create'])
 Route::post('/lavora-con-noi', [WorkWithUsController::class, 'store'])
     ->middleware('auth')
     ->name('work.with.us.store');    
+
+Route::get('/make-revisor/{user}', [RevisorController::class, 'makeRevisor'])
+    ->middleware(['auth', 'isRevisor'])
+    ->name('make.revisor');

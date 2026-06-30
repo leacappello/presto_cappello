@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\User;
 
 class RevisorController extends Controller
 {
@@ -35,5 +36,16 @@ class RevisorController extends Controller
         return redirect()
             ->route('revisor.index')
             ->with('success', 'Annuncio rifiutato correttamente.');
+    }
+
+    public function makeRevisor(User $user)
+    {
+    $user->update([
+        'is_revisor' => true,
+    ]);
+
+    return redirect()
+        ->route('revisor.index')
+        ->with('success', "L'utente {$user->email} è ora revisore.");
     }
 }

@@ -85,7 +85,7 @@
 
                 @endguest
 
-                @auth
+@auth
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('article.create') }}">
@@ -93,32 +93,29 @@
         </a>
     </li>
 
-    @if (auth()->user()->is_revisor == true)
+    @if(auth()->user()->is_revisor)
         <li class="nav-item">
             <a class="nav-link" href="{{ route('revisor.index') }}">
                 Dashboard Revisore
             </a>
         </li>
     @endif
-    
-    @if (!auth()->user()->is_revisor)
+
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('work.with.us') }}">
+        <a class="nav-link" href="{{ route('become.revisor') }}">
             Lavora con noi
         </a>
     </li>
-@endif
 
     <li class="nav-item">
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout') }}" class="d-inline">
             @csrf
 
             <button
-             type="submit"
-             class="btn btn-link nav-link text-white text-decoration-none border-0">
-             Logout
+                type="submit"
+                class="btn btn-link nav-link text-white text-decoration-none border-0 p-0">
+                Logout
             </button>
-
         </form>
     </li>
 

@@ -1,27 +1,23 @@
-<h1>Richiesta per diventare revisore</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presto.it</title>
+</head>
+<body>
+    <div>
+        <h1>Un utente ha chiesto di lavorare con noi</h1>
+        <h2>Ecco i suoi dati:</h2>
 
-<p>
-    L'utente <strong>{{ $user->name }}</strong> ha richiesto di diventare revisore.
-</p>
+        <p>Nome: {{ $user->name }}</p>
+        <p>Email: {{ $user->email }}</p>
 
-<p>
-    <strong>Email:</strong> {{ $user->email }}
-</p>
+        <p>Se vuoi renderlo revisore, clicca qui:</p>
 
-<h3>Messaggio</h3>
-
-<p>
-    {{ $userMessage }}
-</p>
-
-<hr>
-
-<p>
-    Per approvare la richiesta e rendere revisore l'utente, clicca sul link seguente:
-</p>
-
-<p>
-    <a href="{{ route('make.revisor', $user) }}">
-         Rendi revisore {{ $user->name }}
-    </a>
-</p>
+        <a href="{{ route('make.revisor', compact('user')) }}">
+            Rendi revisore
+        </a>
+    </div>
+</body>
+</html>

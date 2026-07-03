@@ -1,5 +1,13 @@
 <x-layout>
 
+    @if (session('message'))
+        <div class="container mt-3">
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        </div>
+    @endif
+
     <div class="container py-5 text-center">
 
         <h1>Benvenuto su Presto</h1>
@@ -22,7 +30,7 @@
 
                 <div class="col-12 col-md-4 mb-4">
 
-                    <x-card :article="$article"/>
+                    <x-card :article="$article" />
 
                 </div>
 

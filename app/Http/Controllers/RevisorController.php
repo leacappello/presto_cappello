@@ -2,50 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BecomeRevisor;
 use App\Models\Article;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RevisorController extends Controller
 {
     public function index()
     {
-        $article_to_check = Article::where('is_accepted', null)
-            ->oldest()
-            ->first();
+        $article_to_check = Article::where('is_accepted', null)->first();
 
         return view('revisor.index', compact('article_to_check'));
     }
 
-    public function acceptArticle(Article $article)
+    public function accept(Article $article)
     {
-        $article->update([
-            'is_accepted' => true,
-        ]);
+        $article->setAccepted(true);
 
         return redirect()
-            ->route('revisor.index')
-            ->with('success', 'Annuncio accettato correttamente.');
+            ->back()
+            ->with('message', "Hai accettato l'articolo $article->title");
     }
 
-    public function rejectArticle(Article $article)
+    public function reject(Article $article)
     {
-        $article->update([
-            'is_accepted' => false,
-        ]);
+        $article->setAccepted(false);
 
         return redirect()
-            ->route('revisor.index')
-            ->with('success', 'Annuncio rifiutato correttamente.');
+            ->back()
+            ->with('message', "Hai rifiutato l'articolo $article->title");
+    }
+
+    public function becomeRevisor()
+    {
+        Mail::to('admin@presto.it')->send(new BecomeRevisor(Auth::user()));
+
+        return redirect()
+            ->route('homepage')
+            ->with('message', 'Complimenti, hai richiesto di diventare revisore');
     }
 
     public function makeRevisor(User $user)
     {
-    $user->update([
-        'is_revisor' => true,
-    ]);
+        Artisan::call('app:make-user-revisor', [
+            'email' => $user->email,
+        ]);
 
-    return redirect()
-        ->route('revisor.index')
-        ->with('success', "L'utente {$user->email} è ora revisore.");
+        return redirect()->back();
     }
 }

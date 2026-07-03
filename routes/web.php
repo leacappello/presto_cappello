@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\RevisorController;
-use App\Http\Controllers\WorkWithUsController;
 
 Route::get('/', [PublicController::class, 'homepage'])->name('homepage');
 
@@ -21,25 +20,20 @@ Route::get('/category/{category}/articles', [ArticleController::class, 'byCatego
     ->name('article.byCategory');
 
 Route::get('/revisor/index', [RevisorController::class, 'index'])
-    ->middleware(['auth', 'isRevisor'])
+    ->middleware('isRevisor')
     ->name('revisor.index');
 
-Route::patch('/accept/article/{article}', [RevisorController::class, 'acceptArticle'])
-    ->middleware(['auth', 'isRevisor'])
-    ->name('revisor.accept_article');
+Route::patch('/accept/{article}', [RevisorController::class, 'accept'])
+    ->middleware('isRevisor')
+    ->name('accept');
 
-Route::patch('/reject/article/{article}', [RevisorController::class, 'rejectArticle'])
-    ->middleware(['auth', 'isRevisor'])
-    ->name('revisor.reject_article');
+Route::patch('/reject/{article}', [RevisorController::class, 'reject'])
+    ->middleware('isRevisor')
+    ->name('reject');
 
-Route::get('/lavora-con-noi', [WorkWithUsController::class, 'create'])
+Route::get('/revisor/request', [RevisorController::class, 'becomeRevisor'])
     ->middleware('auth')
-    ->name('work.with.us');
+    ->name('become.revisor');
 
-Route::post('/lavora-con-noi', [WorkWithUsController::class, 'store'])
-    ->middleware('auth')
-    ->name('work.with.us.store');    
-
-Route::get('/make-revisor/{user}', [RevisorController::class, 'makeRevisor'])
-    ->middleware(['auth', 'isRevisor'])
+Route::get('/make/revisor/{user}', [RevisorController::class, 'makeRevisor'])
     ->name('make.revisor');

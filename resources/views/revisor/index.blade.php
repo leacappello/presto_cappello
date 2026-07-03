@@ -1,11 +1,12 @@
 <x-layout>
+
     <div class="container py-5">
 
         <h1 class="mb-4">Dashboard Revisore</h1>
 
-        @if (session('success'))
+        @if (session('message'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {{ session('message') }}
             </div>
         @endif
 
@@ -33,7 +34,7 @@
 
                     <div class="d-flex gap-2">
 
-                        <form method="POST" action="{{ route('revisor.accept_article', $article_to_check) }}">
+                        <form method="POST" action="{{ route('accept', $article_to_check) }}">
                             @csrf
                             @method('PATCH')
 
@@ -42,7 +43,7 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('revisor.reject_article', $article_to_check) }}">
+                        <form method="POST" action="{{ route('reject', $article_to_check) }}">
                             @csrf
                             @method('PATCH')
 
@@ -58,9 +59,12 @@
 
         @else
 
-            <p>Non ci sono annunci da revisionare.</p>
+            <div class="alert alert-info">
+                Non ci sono annunci da revisionare.
+            </div>
 
         @endif
 
     </div>
+
 </x-layout>

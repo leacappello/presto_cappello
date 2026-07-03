@@ -14,18 +14,16 @@ class BecomeRevisor extends Mailable
     use Queueable, SerializesModels;
 
     public User $user;
-    public string $userMessage;
 
-    public function __construct(User $user, string $userMessage)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->userMessage = $userMessage;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Richiesta per diventare revisore',
+            subject: "Rendi revisore l'utente " . $this->user->name,
         );
     }
 

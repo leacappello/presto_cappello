@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller implements HasMiddleware
 {
@@ -48,4 +49,22 @@ class ArticleController extends Controller implements HasMiddleware
 
     return view('article.byCategory', compact('articles', 'category'));
 }
+
+public function searchArticles(Request $request)
+{
+    $query = $request->input('query');
+
+    if (!$query) {
+        return redirect()
+            ->route('homepage')
+            ->with('message', 'Inserisci un termine di ricerca.');
+    }
+
+    $articles = Article::search($query)
+        ->get()
+        ->where('is_accepted', true);
+
+    return view('article.searched', compact('articles', 'query'));
+}
+
 }

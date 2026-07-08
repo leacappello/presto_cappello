@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Article extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'title',
         'description',
@@ -29,14 +32,24 @@ class Article extends Model
 
     public function setAccepted($value)
     {
-    $this->is_accepted = $value;
-    $this->save();
+        $this->is_accepted = $value;
+        $this->save();
 
-    return true;
+        return true;
     }
 
     public static function toBeRevisedCount()
     {
-    return Article::where('is_accepted', null)->get()->count();
+        return self::where('is_accepted', null)->count();
     }
+
+    public function toSearchableArray()
+{
+    return [
+        'id' => $this->id,
+        'title' => $this->title,
+        'description' => $this->description,
+        'category' => $this->category->name,
+    ];
+}
 }

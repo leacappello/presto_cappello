@@ -69,6 +69,21 @@
 
             <ul class="navbar-nav">
 
+            <form class="d-flex me-3" role="search" action="{{ route('article.search') }}" method="GET">
+                <input
+                      class="form-control me-2"
+                      type="search"
+                      name="query"
+                      placeholder="Cerca annunci"
+                      aria-label="Search"
+                   >
+
+                   <button class="btn btn-outline-light" type="submit">
+                       Cerca
+                   </button>
+                   
+            </form>
+
                 @guest
 
                     <li class="nav-item">

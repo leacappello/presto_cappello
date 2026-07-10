@@ -5,13 +5,16 @@
             PRESTO
         </a>
 
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
-
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
             <span class="navbar-toggler-icon"></span>
-
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -20,27 +23,27 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('homepage') }}">
-                        Home
+                        {{ __('ui.home') }}
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('article.index') }}">
-                        Tutti gli annunci
+                        {{ __('ui.allArticles') }}
                     </a>
                 </li>
 
-                {{-- Questo dropdown lo completeremo nella User Story 2 --}}
                 @isset($categories)
                     <li class="nav-item dropdown">
 
-                        <a class="nav-link dropdown-toggle"
-                           href="#"
-                           role="button"
-                           data-bs-toggle="dropdown">
-
-                            Categorie
-
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            {{ __('ui.categories') }}
                         </a>
 
                         <ul class="dropdown-menu">
@@ -48,14 +51,12 @@
                             @foreach($categories as $category)
 
                                 <li>
-
-                                    <a class="dropdown-item"
-                                       href="{{ route('article.byCategory', $category) }}">
-
-                                        {{ $category->name }}
-
+                                    <a
+                                        class="dropdown-item"
+                                        href="{{ route('article.byCategory', $category) }}"
+                                    >
+                                        {{ __("ui.{$category->name}") }}
                                     </a>
-
                                 </li>
 
                             @endforeach
@@ -67,74 +68,94 @@
 
             </ul>
 
-            <ul class="navbar-nav">
-
-            <form class="d-flex me-3" role="search" action="{{ route('article.search') }}" method="GET">
+            <form
+                class="d-flex me-3 my-2 my-lg-0"
+                role="search"
+                action="{{ route('article.search') }}"
+                method="GET"
+            >
                 <input
-                      class="form-control me-2"
-                      type="search"
-                      name="query"
-                      placeholder="Cerca annunci"
-                      aria-label="Search"
-                   >
+                    class="form-control me-2"
+                    type="search"
+                    name="query"
+                    value="{{ request('query') }}"
+                    placeholder="{{ __('ui.searchPlaceholder') }}"
+                    aria-label="{{ __('ui.search') }}"
+                >
 
-                   <button class="btn btn-outline-light" type="submit">
-                       Cerca
-                   </button>
-                   
+                <button class="btn btn-outline-light" type="submit">
+                    {{ __('ui.search') }}
+                </button>
             </form>
+
+            <div class="d-flex align-items-center me-3">
+                <x-_locale lang="it" />
+                <x-_locale lang="uk" />
+                <x-_locale lang="es" />
+            </div>
+
+            <ul class="navbar-nav align-items-lg-center">
 
                 @guest
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">
-                            Login
+                            {{ __('ui.login') }}
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">
-                            Registrati
+                            {{ __('ui.register') }}
                         </a>
                     </li>
 
                 @endguest
 
-@auth
+                @auth
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('article.create') }}">
-            Inserisci annuncio
-        </a>
-    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('article.create') }}">
+                            {{ __('ui.createArticle') }}
+                        </a>
+                    </li>
 
-    @if(auth()->user()->is_revisor)
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('revisor.index') }}">
-                Dashboard Revisore
-            </a>
-        </li>
-    @endif
+                    @if(auth()->user()->is_revisor)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('revisor.index') }}">
+                                {{ __('ui.revisorDashboard') }}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('become.revisor') }}">
-            Lavora con noi
-        </a>
-    </li>
+                                <span class="badge bg-danger">
+                                    {{ \App\Models\Article::toBeRevisedCount() }}
+                                </span>
+                            </a>
+                        </li>
+                    @endif
 
-    <li class="nav-item">
-        <form method="POST" action="{{ route('logout') }}" class="d-inline">
-            @csrf
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('become.revisor') }}">
+                            {{ __('ui.workWithUs') }}
+                        </a>
+                    </li>
 
-            <button
-                type="submit"
-                class="btn btn-link nav-link text-white text-decoration-none border-0 p-0">
-                Logout
-            </button>
-        </form>
-    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <form
+                            method="POST"
+                            action="{{ route('logout') }}"
+                            class="m-0"
+                        >
+                            @csrf
 
-@endauth
+                            <button
+                                type="submit"
+                                class="btn btn-link nav-link text-white text-decoration-none border-0"
+                            >
+                                {{ __('ui.logout') }}
+                            </button>
+                        </form>
+                    </li>
+
+                @endauth
 
             </ul>
 

@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'home' => 'Home',
+    'allArticles' => 'Tutti gli annunci',
+    'createArticle' => 'Inserisci annuncio',
+    'categories' => 'Categorie',
+    'login' => 'Accedi',
+    'register' => 'Registrati',
+    'logout' => 'Esci',
+    'revisorDashboard' => 'Dashboard Revisore',
+    'workWithUs' => 'Lavora con noi',
+    'search' => 'Cerca',
+    'searchPlaceholder' => 'Cerca annunci',
+    'welcome' => 'Benvenuto su Presto',
+    'welcomeText' => 'Inserisci o cerca annunci nella piattaforma.',
+    'latestArticles' => 'Ultimi annunci',
+    'details' => 'Dettaglio',
+
+    'Elettronica' => 'Elettronica',
+    'Abbigliamento' => 'Abbigliamento',
+    'Casa' => 'Casa',
+    'Giardino' => 'Giardino',
+    'Motori' => 'Motori',
+    'Sport' => 'Sport',
+    'Libri' => 'Libri',
+    'Musica' => 'Musica',
+    'Arredamento' => 'Arredamento',
+    'Altro' => 'Altro',
+    'noArticles' => 'Nessun annuncio presente.',
+];

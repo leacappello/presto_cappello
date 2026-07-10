@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'home' => 'Home',
+    'allArticles' => 'All articles',
+    'createArticle' => 'Create article',
+    'categories' => 'Categories',
+    'login' => 'Login',
+    'register' => 'Register',
+    'logout' => 'Logout',
+    'revisorDashboard' => 'Revisor dashboard',
+    'workWithUs' => 'Work with us',
+    'search' => 'Search',
+    'searchPlaceholder' => 'Search articles',
+    'welcome' => 'Welcome to Presto',
+    'welcomeText' => 'Create or search articles on the platform.',
+    'latestArticles' => 'Latest articles',
+    'details' => 'Details',
+
+    'Elettronica' => 'Electronics',
+    'Abbigliamento' => 'Clothing',
+    'Casa' => 'Home',
+    'Giardino' => 'Garden',
+    'Motori' => 'Vehicles',
+    'Sport' => 'Sports',
+    'Libri' => 'Books',
+    'Musica' => 'Music',
+    'Arredamento' => 'Furniture',
+    'Altro' => 'Other',
+    'noArticles' => 'No articles available.',
+];

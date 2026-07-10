@@ -15,4 +15,17 @@ class PublicController extends Controller
 
     return view('welcome', compact('articles'));
 }
+
+public function setLanguage(string $lang)
+{
+    $allowedLanguages = ['it', 'uk', 'es'];
+
+    if (!in_array($lang, $allowedLanguages, true)) {
+        abort(404);
+    }
+
+    session()->put('locale', $lang);
+
+    return redirect()->back();
+}
 }

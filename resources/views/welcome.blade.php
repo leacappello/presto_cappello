@@ -8,21 +8,31 @@
         </div>
     @endif
 
+    @if (session('errorMessage'))
+        <div class="container mt-3">
+            <div class="alert alert-danger">
+                {{ session('errorMessage') }}
+            </div>
+        </div>
+    @endif
+
     <div class="container py-5 text-center">
 
-        <h1>Benvenuto su Presto</h1>
+        <h1>{{ __('ui.welcome') }}</h1>
 
-        <p>Inserisci o cerca annunci nella piattaforma.</p>
+        <p>{{ __('ui.welcomeText') }}</p>
 
         <a href="{{ route('article.create') }}" class="btn btn-primary">
-            Inserisci annuncio
+            {{ __('ui.createArticle') }}
         </a>
 
     </div>
 
     <section class="container py-5">
 
-        <h2 class="mb-4">Ultimi annunci</h2>
+        <h2 class="mb-4">
+            {{ __('ui.latestArticles') }}
+        </h2>
 
         <div class="row">
 
@@ -37,7 +47,7 @@
             @empty
 
                 <div class="col-12">
-                    <p>Nessun annuncio presente.</p>
+                    <p>{{ __('ui.noArticles') }}</p>
                 </div>
 
             @endforelse

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
@@ -52,4 +53,10 @@ class Article extends Model
         'category' => $this->category->name,
     ];
 }
+
+public function images(): HasMany
+{
+    return $this->hasMany(Image::class);
+}
+
 }

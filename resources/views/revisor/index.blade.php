@@ -2,7 +2,9 @@
 
     <div class="container py-5">
 
-        <h1 class="mb-4">Dashboard Revisore</h1>
+        <h1 class="mb-4">
+            {{ __('ui.revisorDashboard') }}
+        </h1>
 
         @if (session('message'))
             <div class="alert alert-success">
@@ -12,49 +14,107 @@
 
         @if ($article_to_check)
 
-            <div class="card">
-                <div class="card-body">
+            <div class="row">
 
-                    <h2>{{ $article_to_check->title }}</h2>
+                <div class="col-12 mb-4">
 
-                    <p>
-                        <strong>Prezzo:</strong>
-                        € {{ $article_to_check->price }}
-                    </p>
+                    @if ($article_to_check->images->isNotEmpty())
 
-                    <p>
-                        <strong>Categoria:</strong>
-                        {{ $article_to_check->category->name }}
-                    </p>
+                        <div class="row">
 
-                    <p>
-                        <strong>Descrizione:</strong>
-                        {{ $article_to_check->description }}
-                    </p>
+                            @foreach ($article_to_check->images as $image)
 
-                    <div class="d-flex gap-2">
+                                <div class="col-6 col-md-4 col-lg-2 mb-3">
 
-                        <form method="POST" action="{{ route('accept', $article_to_check) }}">
-                            @csrf
-                            @method('PATCH')
+                                    <img
+                                        src="{{ Storage::url($image->path) }}"
+                                        class="img-fluid rounded w-100"
+                                        alt="{{ $article_to_check->title }}"
+                                        style="height: 160px; object-fit: cover;"
+                                    >
 
-                            <button type="submit" class="btn btn-success">
-                                Accetta
-                            </button>
-                        </form>
+                                </div>
 
-                        <form method="POST" action="{{ route('reject', $article_to_check) }}">
-                            @csrf
-                            @method('PATCH')
+                            @endforeach
 
-                            <button type="submit" class="btn btn-danger">
-                                Rifiuta
-                            </button>
-                        </form>
+                        </div>
 
+                    @else
+
+                        <img
+                            src="https://picsum.photos/900/400"
+                            class="img-fluid rounded w-100"
+                            alt="Immagine segnaposto"
+                            style="height: 350px; object-fit: cover;"
+                        >
+
+                    @endif
+
+                </div>
+
+                <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h2>
+                                {{ $article_to_check->title }}
+                            </h2>
+
+                            <p>
+                                <strong>Prezzo:</strong>
+                                € {{ number_format($article_to_check->price, 2, ',', '.') }}
+                            </p>
+
+                            <p>
+                                <strong>Categoria:</strong>
+                                {{ __("ui.{$article_to_check->category->name}") }}
+                            </p>
+
+                            <p>
+                                <strong>Descrizione:</strong>
+                                {{ $article_to_check->description }}
+                            </p>
+
+                            <div class="d-flex gap-2">
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('accept', $article_to_check) }}"
+                                >
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-success"
+                                    >
+                                        Accetta
+                                    </button>
+                                </form>
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('reject', $article_to_check) }}"
+                                >
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    >
+                                        Rifiuta
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
+
             </div>
 
         @else

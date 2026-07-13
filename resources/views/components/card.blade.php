@@ -2,7 +2,7 @@
 
     <img
         src="{{ $article->images->isNotEmpty()
-            ? Storage::url($article->images->first()->path)
+            ? $article->images->first()->getUrl(300, 300)
             : 'https://picsum.photos/500/300' }}"
         class="card-img-top"
         alt="{{ $article->title }}"

@@ -22,20 +22,20 @@
 
                         <div class="row">
 
-                            @foreach ($article_to_check->images as $image)
+                           @foreach ($article_to_check->images as $image)
 
-                                <div class="col-6 col-md-4 col-lg-2 mb-3">
+                              <div class="col-6 col-md-4 col-lg-2 mb-3">
 
-                                    <img
-                                        src="{{ Storage::url($image->path) }}"
-                                        class="img-fluid rounded w-100"
-                                        alt="{{ $article_to_check->title }}"
-                                        style="height: 160px; object-fit: cover;"
-                                    >
+                                   <img
+                                      src="{{ $image->getUrl(300, 300) }}"
+                                      class="img-fluid rounded w-100"
+                                      alt="{{ $article_to_check->title }}"
+                                      style="height: 160px; object-fit: cover;"
+                                   >
 
-                                </div>
+                             </div>
 
-                            @endforeach
+                           @endforeach
 
                         </div>
 

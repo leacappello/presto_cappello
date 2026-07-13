@@ -16,20 +16,20 @@
 
                         <div class="carousel-inner">
 
-                            @foreach ($article->images as $image)
+                           @foreach ($article->images as $image)
 
-                                <div class="carousel-item @if($loop->first) active @endif">
+                         <div class="carousel-item @if($loop->first) active @endif">
 
-                                    <img
-                                        src="{{ Storage::url($image->path) }}"
-                                        class="d-block w-100 rounded"
-                                        alt="{{ $article->title }}"
-                                        style="height: 450px; object-fit: cover;"
-                                    >
+                                <img
+                                       src="{{ $image->getUrl(300, 300) }}"
+                                       class="d-block w-100 rounded"
+                                       alt="{{ $article->title }}"
+                                       style="height: 450px; object-fit: cover;"
+                                >
 
-                                </div>
+                        </div>
 
-                            @endforeach
+                           @endforeach
 
                         </div>
 

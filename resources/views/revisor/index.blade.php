@@ -22,20 +22,223 @@
 
                         <div class="row">
 
-                           @foreach ($article_to_check->images as $image)
+                            @foreach ($article_to_check->images as $image)
 
-                              <div class="col-6 col-md-4 col-lg-2 mb-3">
+                                <div class="col-12 col-md-6 col-lg-4 mb-4">
 
-                                   <img
-                                      src="{{ $image->getUrl(300, 300) }}"
-                                      class="img-fluid rounded w-100"
-                                      alt="{{ $article_to_check->title }}"
-                                      style="height: 160px; object-fit: cover;"
-                                   >
+                                    <div class="card h-100 shadow-sm">
 
-                             </div>
+                                        <img
+                                            src="{{ $image->getUrl(300, 300) }}"
+                                            class="card-img-top"
+                                            alt="Immagine {{ $loop->iteration }} dell'articolo {{ $article_to_check->title }}"
+                                            style="height: 240px; object-fit: cover;"
+                                        >
 
-                           @endforeach
+                                        <div class="card-body">
+
+                                            <h5 class="card-title mb-3">
+                                                Analisi immagine {{ $loop->iteration }}
+                                            </h5>
+
+                                            <div class="mb-4">
+
+                                                <h6 class="fw-bold mb-2">
+                                                    Etichette rilevate
+                                                </h6>
+
+                                                @if (!empty($image->labels))
+
+                                                    <div class="d-flex flex-wrap gap-2">
+
+                                                        @foreach ($image->labels as $label)
+
+                                                            <span class="badge bg-primary">
+                                                                {{ $label }}
+                                                            </span>
+
+                                                        @endforeach
+
+                                                    </div>
+
+                                                @else
+
+                                                    <p class="text-muted fst-italic mb-0">
+                                                        Nessuna etichetta disponibile.
+                                                    </p>
+
+                                                @endif
+
+                                            </div>
+
+                                            <hr>
+
+                                            <h6 class="fw-bold mb-3">
+                                                Analisi Safe Search
+                                            </h6>
+
+                                            <div class="row align-items-center mb-2">
+
+                                                <div class="col-10">
+                                                    Adult
+                                                </div>
+
+                                                <div class="col-2 text-center">
+
+                                                    @if ($image->adult)
+
+                                                        <i
+                                                            class="{{ $image->adult }}"
+                                                            title="Contenuto per adulti"
+                                                            aria-label="Contenuto per adulti"
+                                                        ></i>
+
+                                                    @else
+
+                                                        <span
+                                                            class="text-muted"
+                                                            title="Analisi non disponibile"
+                                                        >
+                                                            -
+                                                        </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row align-items-center mb-2">
+
+                                                <div class="col-10">
+                                                    Violence
+                                                </div>
+
+                                                <div class="col-2 text-center">
+
+                                                    @if ($image->violence)
+
+                                                        <i
+                                                            class="{{ $image->violence }}"
+                                                            title="Contenuto violento"
+                                                            aria-label="Contenuto violento"
+                                                        ></i>
+
+                                                    @else
+
+                                                        <span
+                                                            class="text-muted"
+                                                            title="Analisi non disponibile"
+                                                        >
+                                                            -
+                                                        </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row align-items-center mb-2">
+
+                                                <div class="col-10">
+                                                    Spoof
+                                                </div>
+
+                                                <div class="col-2 text-center">
+
+                                                    @if ($image->spoof)
+
+                                                        <i
+                                                            class="{{ $image->spoof }}"
+                                                            title="Contenuto artificiale o alterato"
+                                                            aria-label="Contenuto artificiale o alterato"
+                                                        ></i>
+
+                                                    @else
+
+                                                        <span
+                                                            class="text-muted"
+                                                            title="Analisi non disponibile"
+                                                        >
+                                                            -
+                                                        </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row align-items-center mb-2">
+
+                                                <div class="col-10">
+                                                    Racy
+                                                </div>
+
+                                                <div class="col-2 text-center">
+
+                                                    @if ($image->racy)
+
+                                                        <i
+                                                            class="{{ $image->racy }}"
+                                                            title="Contenuto provocante"
+                                                            aria-label="Contenuto provocante"
+                                                        ></i>
+
+                                                    @else
+
+                                                        <span
+                                                            class="text-muted"
+                                                            title="Analisi non disponibile"
+                                                        >
+                                                            -
+                                                        </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row align-items-center">
+
+                                                <div class="col-10">
+                                                    Medical
+                                                </div>
+
+                                                <div class="col-2 text-center">
+
+                                                    @if ($image->medical)
+
+                                                        <i
+                                                            class="{{ $image->medical }}"
+                                                            title="Contenuto medico"
+                                                            aria-label="Contenuto medico"
+                                                        ></i>
+
+                                                    @else
+
+                                                        <span
+                                                            class="text-muted"
+                                                            title="Analisi non disponibile"
+                                                        >
+                                                            -
+                                                        </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            @endforeach
 
                         </div>
 
@@ -54,10 +257,11 @@
 
                 <div class="col-12">
 
-                    <div class="card">
+                    <div class="card shadow-sm">
+
                         <div class="card-body">
 
-                            <h2>
+                            <h2 class="mb-3">
                                 {{ $article_to_check->title }}
                             </h2>
 
@@ -76,7 +280,7 @@
                                 {{ $article_to_check->description }}
                             </p>
 
-                            <div class="d-flex gap-2">
+                            <div class="d-flex flex-wrap gap-2 mt-4">
 
                                 <form
                                     method="POST"
@@ -91,6 +295,7 @@
                                     >
                                         Accetta
                                     </button>
+
                                 </form>
 
                                 <form
@@ -106,11 +311,13 @@
                                     >
                                         Rifiuta
                                     </button>
+
                                 </form>
 
                             </div>
 
                         </div>
+
                     </div>
 
                 </div>

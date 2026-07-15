@@ -10,7 +10,20 @@ class Image extends Model
 {
     protected $fillable = [
         'path',
+        'labels',
+        'adult',
+        'spoof',
+        'medical',
+        'violence',
+        'racy',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'labels' => 'array',
+        ];
+    }
 
     public function article(): BelongsTo
     {
@@ -22,8 +35,6 @@ class Image extends Model
         ?int $w = null,
         ?int $h = null
     ): string {
-        // Se non vengono richieste dimensioni specifiche,
-        // restituisce direttamente l'immagine originale.
         if (!$w || !$h) {
             return Storage::disk('public')->url($filePath);
         }
@@ -31,14 +42,17 @@ class Image extends Model
         $path = dirname($filePath);
         $fileName = basename($filePath);
 
-        $croppedFile = "{$path}/crop_{$w}x{$h}_{$fileName}";
+        $croppedFile =
+            "{$path}/crop_{$w}x{$h}_{$fileName}";
 
-        // Usa il crop quando esiste.
-        if (Storage::disk('public')->exists($croppedFile)) {
-            return Storage::disk('public')->url($croppedFile);
+        if (
+            Storage::disk('public')->exists($croppedFile)
+        ) {
+            return Storage::disk('public')->url(
+                $croppedFile
+            );
         }
 
-        // Fallback per le immagini caricate prima della User Story 6.
         return Storage::disk('public')->url($filePath);
     }
 

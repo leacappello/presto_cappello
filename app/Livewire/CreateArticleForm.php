@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Jobs\GoogleVisionLabelImage;
+use App\Jobs\GoogleVisionSafeSearch;
 use App\Jobs\ResizeImage;
 use App\Models\Article;
 use App\Models\Category;
@@ -58,7 +60,7 @@ class CreateArticleForm extends Component
         'images.*.max' => 'Ogni immagine non può superare 1 MB.',
     ];
 
-    public function updatedTemporaryImages()
+    public function updatedTemporaryImages(): void
     {
         $this->validate([
             'temporary_images' => 'max:6',
@@ -74,7 +76,7 @@ class CreateArticleForm extends Component
         $this->temporary_images = [];
     }
 
-    public function removeImage($key)
+    public function removeImage(int $key): void
     {
         if (array_key_exists($key, $this->images)) {
             unset($this->images[$key]);
@@ -83,7 +85,7 @@ class CreateArticleForm extends Component
         }
     }
 
-    public function store()
+    public function store(): void
     {
         $this->validate();
 
@@ -108,6 +110,14 @@ class CreateArticleForm extends Component
                 300,
                 300
             );
+
+            GoogleVisionSafeSearch::dispatch(
+                $newImage->id
+            );
+
+            GoogleVisionLabelImage::dispatch(
+                $newImage->id
+            );
         }
 
         File::deleteDirectory(
@@ -116,10 +126,11 @@ class CreateArticleForm extends Component
 
         $this->cleanForm();
 
-        $this->successMessage = 'Annuncio creato correttamente!';
+        $this->successMessage =
+            'Annuncio creato correttamente!';
     }
 
-    protected function cleanForm()
+    protected function cleanForm(): void
     {
         $this->reset([
             'title',

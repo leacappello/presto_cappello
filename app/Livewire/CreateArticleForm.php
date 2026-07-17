@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Jobs\GoogleVisionLabelImage;
 use App\Jobs\GoogleVisionSafeSearch;
+use App\Jobs\RemoveFaces;
 use App\Jobs\ResizeImage;
 use App\Models\Article;
 use App\Models\Category;
@@ -86,49 +87,53 @@ class CreateArticleForm extends Component
     }
 
     public function store(): void
-    {
-        $this->validate();
+{
+    $this->validate();
 
-        $article = Article::create([
-            'title' => $this->title,
-            'description' => $this->description,
-            'price' => $this->price,
-            'category_id' => $this->category,
-            'user_id' => auth()->id(),
+    $article = Article::create([
+        'title' => $this->title,
+        'description' => $this->description,
+        'price' => $this->price,
+        'category_id' => $this->category,
+        'user_id' => auth()->id(),
+    ]);
+
+    foreach ($this->images as $image) {
+        $newImage = $article->images()->create([
+            'path' => $image->store(
+                "articles/{$article->id}",
+                'public'
+            ),
         ]);
 
-        foreach ($this->images as $image) {
-            $newImage = $article->images()->create([
-                'path' => $image->store(
-                    "articles/{$article->id}",
-                    'public'
-                ),
-            ]);
+        GoogleVisionSafeSearch::withChain([
+            new GoogleVisionLabelImage(
+                $newImage->id
+            ),
 
-            ResizeImage::dispatch(
+            new RemoveFaces(
+                $newImage->id
+            ),
+
+            new ResizeImage(
                 $newImage->path,
                 300,
                 300
-            );
-
-            GoogleVisionSafeSearch::dispatch(
-                $newImage->id
-            );
-
-            GoogleVisionLabelImage::dispatch(
-                $newImage->id
-            );
-        }
-
-        File::deleteDirectory(
-            storage_path('app/livewire-tmp')
+            ),
+        ])->dispatch(
+            $newImage->id
         );
-
-        $this->cleanForm();
-
-        $this->successMessage =
-            'Annuncio creato correttamente!';
     }
+
+    File::deleteDirectory(
+        storage_path('app/livewire-tmp')
+    );
+
+    $this->cleanForm();
+
+    $this->successMessage =
+        'Annuncio creato correttamente!';
+}
 
     protected function cleanForm(): void
     {
